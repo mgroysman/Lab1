@@ -1,0 +1,199 @@
+---
+title: "Math and Statistics Lab 1"
+author: "Mikhail Groysman"
+date: "September 15, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+
+source("http://www.openintro.org/stat/data/cdc.R")
+
+names(cdc)
+
+
+## exercise 1; 20 thousands observations; 9 variables; genhlth - categorical, exerany - discrete, hlthplan - discrete, smoke100 - discrete, height - discrete, weight - discrete, age - discrete, gender - categorical
+
+summary(cdc)
+
+head(cdc)
+
+tail(cdc)
+
+summary(cdc$weight)
+
+190 - 140
+
+mean(cdc$weight)
+
+var(cdc$weight)
+
+median(cdc$weight)
+
+table(cdc$smoke100)
+
+table(cdc$smoke100)/20000
+
+barplot(table(cdc$smoke100))
+
+
+## exercise 2 beginning
+
+summary(cdc$height)
+
+IQR(cdc$height)
+
+summary(cdc$age)
+
+IQR(cdc$age)
+
+table(cdc$gender)
+
+
+## male 9596
+
+table(cdc$gender)/20000
+
+table(cdc$exerany)/20000
+
+table(cdc$genhlth)/20000
+
+
+## excelent health 0.23285
+
+table(cdc$gender,cdc$smoke100)
+
+mosaicplot(table(cdc$gender,cdc$smoke100))
+
+
+## exercise 3; males have smoked more
+
+dim(cdc)
+
+cdc[567,6]
+
+names(cdc)
+
+cdc[1:10,6]
+
+1:10
+
+cdc[1:10,]
+
+cdc$weight[567]
+
+mdata <- subset(cdc, cdc$gender == "m")
+
+head(mdata)
+
+m_and_over30 <- subset(cdc, gender == "m" & age > 30)
+
+m_or_over30 <- subset(cdc, gender == "m" | age > 30)
+
+
+## exercise 4; 
+
+under23_and_smoke <- subset(cdc, smoke100 == 1 | age < 23)
+
+boxplot(cdc$height)
+
+summary(cdc$height)
+
+bmi <- (cdc$weight / cdc$height^2) * 703
+
+boxplot(bmi ~ cdc$genhlth)
+
+
+## exercise 5; people with excelent health have lower bmi vs people with poor health (specially poor health people have a lot outliers with very high BMI)
+
+boxplot(bmi ~ cdc$exerany)
+
+
+## people who exercise have slightly lower BMI on average
+
+hist(cdc$age)
+
+hist(bmi)
+
+hist(bmi, breaks = 50)
+
+
+## On my own
+
+
+## 1. The 2 variables have strong correlation
+
+plot(cdc$wtdesire, cdc$weight, main="Weight desired vs weight", 
+  	xlab="Weight desired", ylab="weight ")
+
+
+## 2. 
+
+cdc$wdiff=cdc$wtdesire-cdc$weight
+
+head(cdc$wdiff)
+
+
+## 3. it is discrete. 0 means that actual and desired weights match. positive means that a person potentially wants to gain wait. negative means that a person potentially wants to lose weight
+
+
+## 4. Distribution is left skewed. Median is bigger than mean as expected for left skewed distribution. IQR is 21, so half of the people either do not want to lse any weight or want to lose up to 20 lbs, 25% want to gain weight, and another 25% want to lose more than 21 lbs. Much more people want to lose weight than to gain.
+
+summary(cdc$wdiff)
+
+table(cdc$wdiff)
+
+table(cdc$wdiff)/20000
+
+(var(cdc$wdiff))^0.5
+
+barplot(table(cdc$wdiff))
+
+IQR(cdc$wdiff)
+
+boxplot(cdc$wdiff)
+
+
+
+## 5. It seems that more men want to gain weight than women. Women prefer to lose more weight. Men distribution is right skewed, while women distribution is left skewed
+
+boxplot(cdc$wdiff ~ cdc$gender)
+
+m <- subset(cdc, gender == "m")
+
+f <- subset(cdc, gender == "f")
+
+hist(m$wdiff)
+
+hist(f$wdiff)
+
+summary(m$wdiff)
+
+summary(f$wdiff)
+
+
+
+
+## 6 84.7%
+
+
+mean(cdc$weight)
+
+var(cdc$weight)^0.5
+
+mysubset <- subset(cdc, weight <=(169.683+40.08097)|weight <=(169.683-40.08097))
+
+head(mysubset)
+
+16935/20000
+
+hist(cdc$weight)
+
+boxplot(cdc$weight)
+
+```
+
